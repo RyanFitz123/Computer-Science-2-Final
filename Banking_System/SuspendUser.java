@@ -1,0 +1,108 @@
+import java.util.ArrayList;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class SuspendUser {
+
+    private ArrayList<User> users;
+
+    private Stage loginPage;
+
+    public SuspendUser(ArrayList<User> users, Stage loginPage) {
+        this.loginPage = loginPage;
+        this.users = users;
+    }
+
+    public void show() {
+
+        Stage stage = new Stage();
+
+        Label welcomeLabel = new Label("Welcome to the Suspend User Page!");
+
+        TextField username = new TextField();
+        username.setPromptText("Username");
+
+        Label message = new Label("");
+
+        Button suspendButton = new Button("Suspend User");
+        suspendButton.setPrefWidth(120);        
+
+        suspendButton.setOnAction(e -> {
+            String user = username.getText();
+            
+            if (user.isEmpty()) {
+                message.setText("User suspension failed");
+                return;
+            }
+
+            boolean exists = false;
+            for (User u : users) {
+                if (u.getUsername().equals(user)) {
+                    u.Suspend();
+                    exists = true;
+                    message.setText("User " + user + " suspended successfully!");
+                    break;
+                }
+            }
+
+            if (!exists) {
+                message.setText("User not found");
+            }
+
+            username.clear();
+        });
+
+        Button unSuspendButton = new Button("Unsuspend User");
+        unSuspendButton.setPrefWidth(120);        
+
+        unSuspendButton.setOnAction(e -> {
+            String user = username.getText();
+            
+            if (user.isEmpty()) {
+                message.setText("User suspension failed");
+                return;
+            }
+
+            boolean exists = false;
+            for (User u : users) {
+                if (u.getUsername().equals(user)) {
+                    u.Unsuspend();
+                    exists = true;
+                    message.setText("User " + user + " unsuspended successfully!");
+                    break;
+                }
+            }
+
+            if (!exists) {
+                message.setText("User not found");
+            }
+
+            username.clear();
+        });
+
+        Button returnButton = new Button("Return to Admin Dashboard");
+        
+        returnButton.setOnAction(e -> {
+    
+            stage.close();
+            loginPage.show();
+
+        });
+
+        VBox layout = new VBox(20, welcomeLabel, username, suspendButton, unSuspendButton, message, returnButton);
+        layout.setStyle("-fx-alignment: center; -fx-padding: 20;");
+
+        Scene scene = new Scene(layout, 400, 400);
+
+        stage.setTitle("Create User Page");
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+}
