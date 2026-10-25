@@ -1,5 +1,4 @@
-# Computer-Science-2-Final
-Java Banking System
+# Java Banking System
 
 Banking System created in Java that features admin and user modes.
 This program utilizes multiple classes.
